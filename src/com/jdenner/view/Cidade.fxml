@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <StackPane prefHeight="420.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jdenner.controller.CidadeController">
     <children>
@@ -105,9 +106,33 @@
             <center>
                 <VBox fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label text="Nome" />
+                  <HBox spacing="5.0">
+                     <children>
+                              <Label text="Nome">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="*" textFill="RED" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
                         <TextField fx:id="tfNome" prefWidth="350.0" />
-                        <Label text="Estado" />
+                  <HBox spacing="5.0">
+                     <children>
+                              <Label text="Estado">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="*" textFill="RED" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
                   <Button fx:id="btnEstado" mnemonicParsing="false" onAction="#onActionBtnEstado" text="•••">
                      <padding>
                         <Insets right="6.0" />
@@ -120,7 +145,19 @@
                         </Label>
                      </graphic>
                   </Button>
-                        <Label text="Situação" />
+                  <HBox spacing="5.0">
+                     <children>
+                              <Label text="Situação">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="*" textFill="RED" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
                         <HBox spacing="5.0">
                             <children>
                                 <RadioButton fx:id="rbAtivo" mnemonicParsing="false" selected="true" text="Ativo">
@@ -135,11 +172,15 @@
                     <BorderPane.margin>
                         <Insets />
                     </BorderPane.margin>
-                    <padding>
-                        <Insets top="20.0" />
-                    </padding>
                 </VBox>
             </center>
+         <bottom>
+            <Label text="* Campos obrigatórios" textFill="RED" BorderPane.alignment="CENTER_LEFT">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </bottom>
         </BorderPane>
     </children>
 </StackPane>

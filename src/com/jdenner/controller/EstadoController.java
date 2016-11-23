@@ -27,16 +27,14 @@ import javafx.util.Callback;
  *
  * @author Juliano
  */
-public class EstadoController implements Initializable {
+public class EstadoController extends Controller implements Initializable {
+
+    private Estado estado;
+
+    private Controller parent;
 
     @FXML
     private Pane pnGrade;
-
-    @FXML
-    private Button btnNovo;
-
-    @FXML
-    private Button btnEditar;
 
     @FXML
     private Button btnSelecionar;
@@ -63,12 +61,6 @@ public class EstadoController implements Initializable {
     private Pane pnFormulario;
 
     @FXML
-    private Button btnSalvar;
-
-    @FXML
-    private Button btnCancelar;
-
-    @FXML
     private TextField tfNome;
 
     @FXML
@@ -78,13 +70,7 @@ public class EstadoController implements Initializable {
     private RadioButton rbAtivo;
 
     @FXML
-    private ToggleGroup tgSituacao;
-
-    @FXML
     private RadioButton rbInativo;
-
-    private Estado estado;
-    private CidadeController cidadeController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -117,13 +103,18 @@ public class EstadoController implements Initializable {
                 tbGrade.refresh();
             }
         } catch (Exception e) {
-            Alerta.erro("Erro ao abrir a janela", e);
+            Alerta.erro("Erro ao abrir a janela:", e);
         }
     }
 
-    protected void setCidadeController(CidadeController cidadeController) {
-        this.cidadeController = cidadeController;
+    protected void setParent(Controller controller) {
+        this.parent = controller;
         this.btnSelecionar.setVisible(true);
+    }
+
+    @Override
+    protected void setObject(Object object) {
+        throw new UnsupportedOperationException("Operação não suportada ainda.");
     }
 
     @FXML
@@ -140,7 +131,7 @@ public class EstadoController implements Initializable {
     @FXML
     protected void onActionEditar(ActionEvent event) {
         if (tbGrade.getSelectionModel().isEmpty()) {
-            Alerta.alerta("Selecione um registro");
+            Alerta.alerta("Selecione um registro.");
             return;
         }
 
@@ -156,20 +147,19 @@ public class EstadoController implements Initializable {
     @FXML
     protected void onActionSelecionar(ActionEvent event) {
         if (tbGrade.getSelectionModel().isEmpty()) {
-            Alerta.alerta("Selecione um registro");
+            Alerta.alerta("Selecione um registro.");
             return;
         }
 
         estado = tbGrade.getSelectionModel().getSelectedItem();
-        
-        if(estado.getSituacao() == Situacao.INATIVO){
-            Alerta.alerta("Estado inativo");
+
+        if (estado.getSituacao() == Situacao.INATIVO) {
+            Alerta.alerta("Estado inativo.");
             return;
         }
-        cidadeController.setEstado(estado);
+        parent.setObject(estado);
 
-        Stage stage = (Stage) pnGrade.getScene().getWindow();
-        stage.close();
+        ((Stage) pnGrade.getScene().getWindow()).close();
     }
 
     @FXML
@@ -184,14 +174,14 @@ public class EstadoController implements Initializable {
             estado.setSigla(tfSigla.getText());
             estado.setSituacao(rbAtivo.isSelected() ? Situacao.ATIVO : Situacao.INATIVO);
             EstadoDao.salvar(estado);
-            Alerta.sucesso("Salvo com sucesso");
+            Alerta.sucesso("Salvo com sucesso.");
             atualizarGrade(0);
             pnGrade.setVisible(true);
             pnFormulario.setVisible(false);
         } catch (ExceptionValidacao ev) {
-            Alerta.alerta("Dados inválidos", ev);
+            Alerta.alerta("Dados inválidos:", ev);
         } catch (Exception e) {
-            Alerta.erro("Erro ao salvar", e);
+            Alerta.erro("Erro ao salvar:", e);
         }
     }
 

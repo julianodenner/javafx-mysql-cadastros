@@ -1,5 +1,6 @@
 package com.jdenner.model.dao;
 
+import com.jdenner.controller.util.ExceptionValidacao;
 import com.jdenner.model.Estado;
 import com.jdenner.model.Situacao;
 import java.sql.PreparedStatement;
@@ -15,13 +16,27 @@ public class EstadoDao {
 
     public static void salvar(Estado estado) throws Exception {
         if (estado.getCodigo() == 0) {
+            if (existe(estado)) {
+                throw new ExceptionValidacao("O estado já está cadastrado");
+            }
             inserir(estado);
         } else {
             alterar(estado);
         }
     }
 
-    public static void inserir(Estado estado) throws Exception {
+    private static boolean existe(Estado estado) throws Exception {
+        String sql = "select count(codigo) from tb_estado where nome=? or sigla=?";
+        Conexao c = new Conexao();
+        PreparedStatement ps = c.getConexao().prepareStatement(sql);
+        ps.setString(1, estado.getNome());
+        ps.setString(2, estado.getSigla());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return (rs.getInt(1) > 0);
+    }
+
+    private static void inserir(Estado estado) throws Exception {
         String sql = "insert into tb_estado (nome, sigla, situacao) values (?,?,?)";
         Conexao con = new Conexao();
         PreparedStatement ps = con.getConexao().prepareStatement(sql);
@@ -32,7 +47,7 @@ public class EstadoDao {
         con.confirmar();
     }
 
-    public static void alterar(Estado estado) throws Exception {
+    private static void alterar(Estado estado) throws Exception {
         String sql = "update tb_estado set nome=?, sigla=?, situacao=? where codigo=?";
         Conexao con = new Conexao();
         PreparedStatement ps = con.getConexao().prepareStatement(sql);
@@ -72,10 +87,8 @@ public class EstadoDao {
         ps.setString(1, "%" + filtro + "%");
         ps.setString(2, "%" + filtro + "%");
         ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1);
-        } else {
-            return 0;
-        }
+        rs.next();
+        return rs.getInt(1);
     }
+
 }

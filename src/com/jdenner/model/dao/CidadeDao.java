@@ -1,11 +1,11 @@
 package com.jdenner.model.dao;
 
+import com.jdenner.controller.util.ExceptionValidacao;
 import com.jdenner.model.Cidade;
 import com.jdenner.model.Estado;
 import com.jdenner.model.Situacao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,13 +17,27 @@ public class CidadeDao {
 
     public static void salvar(Cidade cidade) throws Exception {
         if (cidade.getCodigo() == 0) {
+            if (existe(cidade)) {
+                throw new ExceptionValidacao("A cidade já está cadastrada");
+            }
             inserir(cidade);
         } else {
             alterar(cidade);
         }
     }
 
-    public static void inserir(Cidade cidade) throws Exception {
+    private static boolean existe(Cidade cidade) throws Exception {
+        String sql = "select count(codigo) from tb_cidade where nome=? and estado=?";
+        Conexao c = new Conexao();
+        PreparedStatement ps = c.getConexao().prepareStatement(sql);
+        ps.setString(1, cidade.getNome());
+        ps.setInt(2, cidade.getEstado().getCodigo());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return (rs.getInt(1) > 0);
+    }
+
+    private static void inserir(Cidade cidade) throws Exception {
         String sql = "insert into tb_cidade (nome, estado, situacao) values (?,?,?)";
         Conexao con = new Conexao();
         PreparedStatement ps = con.getConexao().prepareStatement(sql);
@@ -34,7 +48,7 @@ public class CidadeDao {
         con.confirmar();
     }
 
-    public static void alterar(Cidade cidade) throws Exception {
+    private static void alterar(Cidade cidade) throws Exception {
         String sql = "update tb_cidade set nome=?, estado=?, situacao=? where codigo=?";
         Conexao con = new Conexao();
         PreparedStatement ps = con.getConexao().prepareStatement(sql);
@@ -84,10 +98,7 @@ public class CidadeDao {
         ps.setString(1, "%" + filtro + "%");
         ps.setString(2, "%" + filtro + "%");
         ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1);
-        } else {
-            return 0;
-        }
+        rs.next();
+        return rs.getInt(1);
     }
 }

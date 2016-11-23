@@ -35,10 +35,13 @@ public class Cidade {
 
     public void setNome(String nome) throws ExceptionValidacao {
          if (nome.isEmpty()) {
-            throw new ExceptionValidacao("Nome obrigatório");
+            throw new ExceptionValidacao("Nome obrigatório.");
         }
         if (nome.trim().length() < 2) {
-            throw new ExceptionValidacao("Nome muito curto");
+            throw new ExceptionValidacao("Nome muito curto.");
+        }
+        if (nome.trim().length() > 45) {
+            throw new ExceptionValidacao("Nome muito longo.");
         }
         this.nome = nome.trim();
     }

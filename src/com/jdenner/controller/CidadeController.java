@@ -16,14 +16,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -33,19 +31,14 @@ import javafx.util.Callback;
  *
  * @author Juliano
  */
-public class CidadeController implements Initializable {
+public class CidadeController extends Controller implements Initializable {
+
+    private Cidade cidade;
+
+    private Controller parent;
 
     @FXML
     private Pane pnGrade;
-
-    @FXML
-    private Button btnNovo;
-
-    @FXML
-    private Button btnEditar;
-
-    @FXML
-    private Button btnSelecionar;
 
     @FXML
     private TableView<Cidade> tbGrade;
@@ -69,30 +62,16 @@ public class CidadeController implements Initializable {
     private Pane pnFormulario;
 
     @FXML
-    private Button btnSalvar;
-
-    @FXML
-    private Button btnCancelar;
-
-    @FXML
     private TextField tfNome;
 
     @FXML
     private Label tfEstado;
 
     @FXML
-    private Button btnEstado;
-
-    @FXML
     private RadioButton rbAtivo;
 
     @FXML
-    private ToggleGroup tgSituacao;
-
-    @FXML
     private RadioButton rbInativo;
-
-    private Cidade cidade;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -125,7 +104,19 @@ public class CidadeController implements Initializable {
                 tbGrade.refresh();
             }
         } catch (Exception e) {
-            Alerta.erro("Erro ao abrir a janela", e);
+            Alerta.erro("Erro ao abrir a janela:", e);
+        }
+    }
+
+    protected void setParent(Controller controller) {
+        throw new UnsupportedOperationException("Operação não suportada ainda.");
+    }
+
+    protected void setObject(Object object) {
+        if (object instanceof Estado) {
+            Estado estado = (Estado) object;
+            cidade.setEstado(estado);
+            tfEstado.setText(estado.toString());
         }
     }
 
@@ -133,7 +124,7 @@ public class CidadeController implements Initializable {
     protected void onActionNovo(ActionEvent event) {
         cidade = new Cidade();
         tfNome.setText("");
-        tfEstado.setText("");        
+        tfEstado.setText("");
         rbAtivo.setSelected(true);
         rbInativo.setSelected(false);
         pnGrade.setVisible(false);
@@ -143,7 +134,7 @@ public class CidadeController implements Initializable {
     @FXML
     protected void onActionEditar(ActionEvent event) {
         if (tbGrade.getSelectionModel().isEmpty()) {
-            Alerta.alerta("Selecione um registro");
+            Alerta.alerta("Selecione um registro.");
             return;
         }
 
@@ -158,7 +149,7 @@ public class CidadeController implements Initializable {
 
     @FXML
     protected void onActionSelecionar(ActionEvent event) {
-        // TODO
+        throw new UnsupportedOperationException("Operação não suportada ainda.");
     }
 
     @FXML
@@ -167,13 +158,13 @@ public class CidadeController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/jdenner/view/Estado.fxml"));
             Parent root = loader.load();
             EstadoController controller = (EstadoController) loader.getController();
-            controller.setCidadeController(this);
+            controller.setParent(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Cadastro de estados");
             stage.show();
         } catch (IOException e) {
-            Alerta.erro("Erro ao abrir a janela", e);
+            Alerta.erro("Erro ao abrir a janela:", e);
         }
     }
 
@@ -187,18 +178,18 @@ public class CidadeController implements Initializable {
         try {
             cidade.setNome(tfNome.getText());
             if (cidade.getEstado() == null) {
-                throw new ExceptionValidacao("Estado inválido");
+                throw new ExceptionValidacao("Estado inválido.");
             }
             cidade.setSituacao(rbAtivo.isSelected() ? Situacao.ATIVO : Situacao.INATIVO);
             CidadeDao.salvar(cidade);
-            Alerta.sucesso("Salvo com sucesso");
+            Alerta.sucesso("Salvo com sucesso.");
             atualizarGrade(0);
             pnGrade.setVisible(true);
             pnFormulario.setVisible(false);
         } catch (ExceptionValidacao ev) {
-            Alerta.alerta("Dados inválidos", ev);
+            Alerta.alerta("Dados inválidos:", ev);
         } catch (Exception e) {
-            Alerta.erro("Erro ao salvar", e);
+            Alerta.erro("Erro ao salvar:", e);
         }
     }
 
@@ -208,9 +199,4 @@ public class CidadeController implements Initializable {
         pnFormulario.setVisible(false);
     }
 
-    public void setEstado(Estado estado) {
-        cidade.setEstado(estado);
-        tfEstado.setText(estado.toString());
-
-    }
 }

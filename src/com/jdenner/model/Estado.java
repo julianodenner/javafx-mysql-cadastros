@@ -40,10 +40,13 @@ public class Estado {
 
     public void setNome(String nome) throws ExceptionValidacao {
         if (nome.isEmpty()) {
-            throw new ExceptionValidacao("Nome obrigatório");
+            throw new ExceptionValidacao("Nome obrigatório.");
         }
         if (nome.trim().length() < 2) {
-            throw new ExceptionValidacao("Nome muito curto");
+            throw new ExceptionValidacao("Nome muito curto.");
+        }
+        if (nome.trim().length() > 45) {
+            throw new ExceptionValidacao("Nome muito longo.");
         }
         this.nome = nome.trim();
     }
@@ -54,10 +57,10 @@ public class Estado {
 
     public void setSigla(String sigla) throws ExceptionValidacao {
         if (sigla.isEmpty()) {
-            throw new ExceptionValidacao("Sigla obrigatória");
+            throw new ExceptionValidacao("Sigla obrigatória.");
         }
         if (sigla.trim().length() != 2) {
-            throw new ExceptionValidacao("Sigla inválida");
+            throw new ExceptionValidacao("Sigla inválida.");
         }
         this.sigla = sigla.trim().toUpperCase();
     }

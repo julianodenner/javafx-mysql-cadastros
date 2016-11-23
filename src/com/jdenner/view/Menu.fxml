@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jdenner.controller.MenuController">
    <top>
@@ -30,12 +31,15 @@
       </MenuBar>
    </top>
    <center>
-      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <Pane style="-fx-background-color: #e6e6e6;" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <FlowPane style="-fx-background-color: #dddddd66;" BorderPane.alignment="CENTER">
+      <FlowPane BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="dataHora" textFill="#666666" />
+            <Label fx:id="dataHora" text="01 de janeiro de 1900, segunda-feira, 00:00" textFill="#999999">
+               <font>
+                  <Font size="10.0" />
+               </font></Label>
          </children>
          <padding>
             <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
