@@ -52,7 +52,8 @@ public class CidadeDao {
                 + " from tb_cidade as c"
                 + " inner join tb_estado as e on e.codigo = c.estado"
                 + " where c.nome like ? or e.nome like ?"
-                + " order by c.nome limit ?,?";
+                + " order by c.situacao, c.nome "
+                + " limit ?,?";
         Conexao con = new Conexao();
         PreparedStatement ps = con.getConexao().prepareStatement(sql);
         ps.setString(1, "%" + filtro + "%");

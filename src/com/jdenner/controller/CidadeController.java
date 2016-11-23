@@ -1,5 +1,7 @@
 package com.jdenner.controller;
 
+import com.jdenner.controller.util.ExceptionValidacao;
+import com.jdenner.controller.util.Alerta;
 import com.jdenner.model.Cidade;
 import com.jdenner.model.Estado;
 import com.jdenner.model.Situacao;
@@ -15,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -75,7 +78,7 @@ public class CidadeController implements Initializable {
     private TextField tfNome;
 
     @FXML
-    private TextField tfEstado;
+    private Label tfEstado;
 
     @FXML
     private Button btnEstado;

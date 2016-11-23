@@ -109,12 +109,16 @@
                         <TextField fx:id="tfNome" prefWidth="350.0" />
                         <Label text="Estado" />
                   <Button fx:id="btnEstado" mnemonicParsing="false" onAction="#onActionBtnEstado" text="•••">
-                     <graphic>
-                                <TextField fx:id="tfEstado" editable="false" focusTraversable="false" prefWidth="325.0" style="-fx-background-radius: 3 0 0 3;" />
-                     </graphic>
                      <padding>
                         <Insets right="6.0" />
                      </padding>
+                     <graphic>
+                        <Label fx:id="tfEstado" prefWidth="325.0">
+                           <padding>
+                              <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+                           </padding>
+                        </Label>
+                     </graphic>
                   </Button>
                         <Label text="Situação" />
                         <HBox spacing="5.0">

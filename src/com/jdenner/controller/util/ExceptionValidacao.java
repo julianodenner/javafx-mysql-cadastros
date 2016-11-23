@@ -1,4 +1,4 @@
-package com.jdenner.controller;
+package com.jdenner.controller.util;
 
 /**
  *

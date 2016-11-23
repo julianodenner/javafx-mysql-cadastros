@@ -1,5 +1,7 @@
 package com.jdenner.controller;
 
+import com.jdenner.controller.util.ExceptionValidacao;
+import com.jdenner.controller.util.Alerta;
 import com.jdenner.model.Estado;
 import com.jdenner.model.Situacao;
 import com.jdenner.model.dao.EstadoDao;

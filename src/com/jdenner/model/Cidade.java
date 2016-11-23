@@ -1,6 +1,6 @@
 package com.jdenner.model;
 
-import com.jdenner.controller.ExceptionValidacao;
+import com.jdenner.controller.util.ExceptionValidacao;
 
 /**
  *
