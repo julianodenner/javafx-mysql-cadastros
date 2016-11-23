@@ -9,6 +9,7 @@ import com.jdenner.model.dao.CidadeDao;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.RadioButton;
@@ -24,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -33,12 +36,17 @@ import javafx.util.Callback;
  */
 public class CidadeController extends Controller implements Initializable {
 
+    private Stage stage;
+
     private Cidade cidade;
 
     private Controller parent;
 
     @FXML
     private Pane pnGrade;
+
+    @FXML
+    private Button btnSelecionar;
 
     @FXML
     private TableView<Cidade> tbGrade;
@@ -75,6 +83,9 @@ public class CidadeController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Platform.runLater(() -> {
+            stage = (Stage) pnGrade.getScene().getWindow();
+        });
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         colSituacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
@@ -109,7 +120,8 @@ public class CidadeController extends Controller implements Initializable {
     }
 
     protected void setParent(Controller controller) {
-        throw new UnsupportedOperationException("Operação não suportada ainda.");
+        this.parent = controller;
+        this.btnSelecionar.setVisible(true);
     }
 
     protected void setObject(Object object) {
@@ -149,7 +161,19 @@ public class CidadeController extends Controller implements Initializable {
 
     @FXML
     protected void onActionSelecionar(ActionEvent event) {
-        throw new UnsupportedOperationException("Operação não suportada ainda.");
+        if (tbGrade.getSelectionModel().isEmpty()) {
+            Alerta.alerta("Selecione um registro.");
+            return;
+        }
+
+        cidade = tbGrade.getSelectionModel().getSelectedItem();
+
+        if (cidade.getSituacao() == Situacao.INATIVO) {
+            Alerta.alerta("Cidade inativa.");
+            return;
+        }
+        parent.setObject(cidade);
+        stage.close();
     }
 
     @FXML
@@ -157,12 +181,14 @@ public class CidadeController extends Controller implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/jdenner/view/Estado.fxml"));
             Parent root = loader.load();
-            EstadoController controller = (EstadoController) loader.getController();
+            Controller controller = (Controller) loader.getController();
             controller.setParent(this);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Cadastro de estados");
-            stage.show();
+            Stage s = new Stage();
+            s.setScene(new Scene(root));
+            s.setTitle("Cadastro de estados");
+            s.initModality(Modality.WINDOW_MODAL);
+            s.initOwner(stage);
+            s.show();
         } catch (IOException e) {
             Alerta.erro("Erro ao abrir a janela:", e);
         }

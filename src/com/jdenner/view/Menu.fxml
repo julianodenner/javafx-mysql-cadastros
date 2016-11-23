@@ -7,7 +7,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
@@ -34,16 +33,23 @@
       <Pane style="-fx-background-color: #e6e6e6;" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <FlowPane BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="dataHora" text="01 de janeiro de 1900, segunda-feira, 00:00" textFill="#999999">
+      <BorderPane BorderPane.alignment="CENTER">
+         <left>
+            <Label fx:id="lbDataHora" text="01 de janeiro de 1900, segunda-feira, 00:00" textFill="#999999" BorderPane.alignment="CENTER">
                <font>
                   <Font size="10.0" />
-               </font></Label>
-         </children>
-         <padding>
+               </font>
+            </Label>
+         </left>
+         <BorderPane.margin>
             <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-         </padding>
-      </FlowPane>
+         </BorderPane.margin>
+         <right>
+            <Label fx:id="lbAcao" alignment="CENTER" contentDisplay="CENTER" text="•••" textAlignment="CENTER" textFill="#999999" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Monospaced Bold" size="16.0" />
+               </font></Label>
+         </right>
+      </BorderPane>
    </bottom>
 </BorderPane>

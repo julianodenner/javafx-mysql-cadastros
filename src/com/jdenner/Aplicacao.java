@@ -3,6 +3,7 @@ package com.jdenner;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -19,6 +20,7 @@ public class Aplicacao extends Application {
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/com/jdenner/view/Menu.fxml"))));
         stage.setTitle("Sistema");
+        stage.setMaximized(true);
         stage.show();
     }
 

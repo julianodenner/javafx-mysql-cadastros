@@ -106,7 +106,7 @@
             <center>
                 <VBox fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
                     <children>
-                  <HBox spacing="5.0">
+                  <HBox spacing="2.0">
                      <children>
                               <Label text="Nome">
                            <HBox.margin>
@@ -120,7 +120,7 @@
                      </VBox.margin>
                   </HBox>
                         <TextField fx:id="tfNome" prefWidth="350.0" />
-                  <HBox spacing="5.0">
+                  <HBox spacing="2.0">
                      <children>
                               <Label text="Estado">
                            <HBox.margin>
@@ -145,7 +145,7 @@
                         </Label>
                      </graphic>
                   </Button>
-                  <HBox spacing="5.0">
+                  <HBox spacing="2.0">
                      <children>
                               <Label text="Situação">
                            <HBox.margin>

@@ -22,26 +22,15 @@ import javafx.stage.Stage;
 public class MenuController implements Initializable {
 
     @FXML
-    private Label dataHora;
+    private Label lbDataHora;
+
+    @FXML
+    private Label lbAcao;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        Task<Void> relogio = new Task<Void>() {
-            @Override
-            public Void call() throws InterruptedException {
-                while (true) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy, EEEEEE, HH:mm:ss");
-                    updateMessage(sdf.format(new Date()).toLowerCase());
-                    Thread.sleep(1000);
-                }
-            }
-        };
-        dataHora.textProperty().bind(relogio.messageProperty());
-
-        Thread thread = new Thread(relogio);
-        thread.setDaemon(true);
-        thread.start();
+        dataHora();
+        acao();
     }
 
     private void abrir(String arquivo, String titulo) {
@@ -63,5 +52,50 @@ public class MenuController implements Initializable {
     @FXML
     protected void abrirEstado(ActionEvent event) {
         abrir("Estado", "Cadastro de estados");
+    }
+
+    private void dataHora() {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            public Void call() throws InterruptedException {
+                while (true) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy, EEEEEE, HH:mm:ss");
+                    updateMessage(sdf.format(new Date()).toLowerCase());
+                    Thread.sleep(1000);
+                }
+            }
+        };
+        lbDataHora.textProperty().bind(task.messageProperty());
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private void acao() {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            public Void call() throws InterruptedException {
+                int contador = 1;
+                while (true) {
+                    if (contador == 1) {
+                        updateMessage("○••");
+                        contador++;
+                    } else if (contador == 2) {
+                        updateMessage("•○•");
+                        contador++;
+                    } else {
+                        updateMessage("••○");
+                        contador = 1;
+                    }
+                    Thread.sleep(1000);
+                }
+            }
+        };
+        lbAcao.textProperty().bind(task.messageProperty());
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 }

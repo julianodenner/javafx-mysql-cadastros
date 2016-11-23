@@ -17,7 +17,7 @@
 
 <StackPane prefHeight="420.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jdenner.controller.EstadoController">
     <children>
-        <BorderPane fx:id="pnGrade">
+        <BorderPane fx:id="pnGrade" >
             <top>
                 <HBox spacing="5.0" BorderPane.alignment="CENTER">
                     <children>
@@ -106,7 +106,7 @@
             <center>
                 <VBox fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
                     <children>
-                  <HBox spacing="5.0">
+                  <HBox spacing="2.0">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
@@ -116,7 +116,7 @@
                      </children>
                   </HBox>
                         <TextField fx:id="tfNome" prefWidth="350.0" />
-                  <HBox spacing="5.0">
+                  <HBox spacing="2.0">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
@@ -125,12 +125,8 @@
                         <Label text="*" textFill="RED" />
                      </children>
                   </HBox>
-                        <HBox>
-                            <children>
-                                <TextField fx:id="tfSigla" prefWidth="100.0" />
-                            </children>
-                        </HBox>
-                  <HBox spacing="5.0">
+                          <TextField fx:id="tfSigla" prefWidth="100.0" />
+                  <HBox spacing="2.0">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>

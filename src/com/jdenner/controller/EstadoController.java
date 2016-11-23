@@ -7,6 +7,7 @@ import com.jdenner.model.Situacao;
 import com.jdenner.model.dao.EstadoDao;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +18,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -28,6 +28,8 @@ import javafx.util.Callback;
  * @author Juliano
  */
 public class EstadoController extends Controller implements Initializable {
+
+    private Stage stage;
 
     private Estado estado;
 
@@ -74,6 +76,9 @@ public class EstadoController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Platform.runLater(() -> {
+            stage = (Stage) pnGrade.getScene().getWindow();
+        });
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colSigla.setCellValueFactory(new PropertyValueFactory<>("sigla"));
         colSituacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
@@ -158,8 +163,7 @@ public class EstadoController extends Controller implements Initializable {
             return;
         }
         parent.setObject(estado);
-
-        ((Stage) pnGrade.getScene().getWindow()).close();
+        stage.close();
     }
 
     @FXML
